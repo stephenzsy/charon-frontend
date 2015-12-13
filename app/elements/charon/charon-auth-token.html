@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-request.html">
+
+
+<dom-module id="charon-auth-token">
+  <template>
+
+    <iron-request id="xhr"> </iron-request>
+
+    <div>Public token: {{token}}</div>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'charon-auth-token',
+
+        properties: {
+          token: String
+        },
+
+        ready: function() {
+          var that = this;
+          return this.$.xhr.send({
+            url: '//localhost:3000/auth/token'
+          }).then(function(xhr) {
+            return JSON.parse(xhr.response).token;
+          }).then(function(a) {
+            that.token = a;
+          });
+        }
+      });
+    })();
+  </script>
+</dom-module>

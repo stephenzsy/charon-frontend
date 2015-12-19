@@ -8,7 +8,7 @@
     }
   </style>
   <template>
-    <div>{{token}}</div>
+    <pre>{{caCertMetadata}}</pre>
   </template>
   <script>
     (function() {
@@ -23,7 +23,7 @@
         _service: null,
 
         properties: {
-          token: {
+          caCertMetadata: {
             type: 'String',
             readOnly: true,
             value: 'hello world'
@@ -34,7 +34,7 @@
           var _this = this;
           this._service = document.createElement('charon-service-certs');
           this._service.getCa().then(function(result) {
-            _this.setToken(result);
+            _this._setCaCertMetadata(result.rawCertificateMetadata);
           });
         }
       });

@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-request.html">
+<link rel="import" href="../../bower_components/promise-polyfill/promise-polyfill-lite.html">
 
 <script>
   (function() {
@@ -31,12 +32,23 @@
       }
 
       getToken(scope) {
+        var _this = this;
         var cachedToken = this._cachedTokens[scope];
-        if (!cachedToken) {
-          cachedToken = new AuthToken('a', 'b', Date.now());
-          this._cachedTokens[scope] = cachedToken;
+        if (!cachedToken || cachedToken.expiry < Date.now()) {
+          var req = document.createElement('iron-request');
+          return req.send({
+            url: 'http://localhost:3000/auth/token',
+            handleAs: 'json'
+          }).then(function() {
+            var result = req.response;
+            cachedToken = new AuthToken(result.scope, result.token, Date.now() + 15 * 60 * 1000);
+            _this._cachedTokens[scope] = cachedToken;
+            return cachedToken;
+          });
         }
-        return cachedToken;
+        return new Promise(function(resolve) {
+          resolve(cachedToken);
+        });
       }
     }
 
@@ -46,7 +58,9 @@
       is: 'charon-auth-token-manager',
 
       getToken: function(scope) {
-        authTokenManager.getToken(scope);
+        return authTokenManager.getToken(scope).then(function(authToken) {
+          return authToken.token;
+        });
       },
     });
 

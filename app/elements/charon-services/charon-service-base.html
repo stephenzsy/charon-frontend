@@ -15,16 +15,21 @@
       created: function() {},
 
       invoke: function(apiPath, tokenScope) {
+        var _this = this;
         var req = document.createElement('iron-request');
-        return req.send({
-          url: this._getUrl(apiPath),
-          headers: {
-            'x-access-token': this._authTokenManager.getToken(tokenScope)
-          },
-          handleAs: 'json'
-        }).then(function() {
-          return req.response;
-        });
+        return this._authTokenManager.getToken(tokenScope)
+          .then(function(token) {
+            return req.send({
+              url: _this._getUrl(apiPath),
+              headers: {
+                'x-access-token': token
+              },
+              handleAs: 'json'
+            });
+          })
+          .then(function() {
+            return req.response;
+          });
       },
 
       _getUrl: function(apiPath) {

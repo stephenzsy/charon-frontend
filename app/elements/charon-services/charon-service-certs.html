@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="./charon-service-base.html">
+
+<script>
+  (function() {
+    'use strict';
+
+    /**
+     *  interface GetCaResult {
+     *    rawCertificateMetadata: string;
+     *  }
+     */
+
+    var CharonServiceCerts = Polymer.Class({
+      is: 'charon-service-certs',
+
+      _base: document.createElement('charon-service-base'),
+
+      created: function() {
+        //  this._authTokenManager = document.createElement('charon-auth-token-manager');
+      },
+
+      getCa: function() {
+        return this._base.invoke('certs/ca');
+      },
+    });
+
+    document.registerElement('charon-service-certs', CharonServiceCerts);
+  })();
+</script>

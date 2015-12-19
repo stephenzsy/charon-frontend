@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-request.html">
+
+<script>
+  (function() {
+    'use strict';
+
+    class AuthToken {
+      constructor(scope, token, expiry) {
+        this._scope = scope;
+        this._token = token;
+        this._expiry = expiry;
+      }
+
+      get scope() {
+        return this._scope;
+      }
+
+      get token() {
+        return this._token;
+      }
+
+      get expiry() {
+        return this._expiry;
+      }
+    }
+
+    class AuthTokenManager {
+      constructor() {
+        this._cachedTokens = {};
+      }
+
+      getToken(scope) {
+        var cachedToken = this._cachedTokens[scope];
+        if (!cachedToken) {
+          cachedToken = new AuthToken('a', 'b', Date.now());
+          this._cachedTokens[scope] = cachedToken;
+        }
+        return cachedToken;
+      }
+    }
+
+    var authTokenManager = new AuthTokenManager();
+
+    var CharonAuthTokenManager = Polymer.Class({
+      is: 'charon-auth-token-manager',
+
+      getToken: function(scope) {
+        authTokenManager.getToken(scope);
+      },
+    });
+
+    document.registerElement('charon-auth-token-manager', CharonAuthTokenManager);
+  })();
+</script>

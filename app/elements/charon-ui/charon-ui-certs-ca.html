@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../charon-services/charon-service-certs.html">
+
+<dom-module id="charon-ui-certs-ca">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <div>{{token}}</div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var CharonUiCertsCa = Polymer.Class({
+        is: 'charon-ui-certs-ca',
+
+        /**
+         * Authorization token manager
+         */
+        _service: null,
+
+        properties: {
+          token: {
+            type: 'String',
+            readOnly: true,
+            value: 'hello world'
+          }
+        },
+
+        ready: function() {
+          var _this = this;
+          this._service = document.createElement('charon-service-certs');
+          this._service.getCa().then(function(result) {
+            _this.setToken(result);
+          });
+        }
+      });
+
+      document.registerElement('charon-ui-certs-ca', CharonUiCertsCa);
+    })();
+  </script>
+</dom-module>

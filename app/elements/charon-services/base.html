@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-request.html">
-<link rel="import" href="./charon-auth-token-manager.html">
+<link rel="import" href="./auth-token-manager.html">
 
 <script>
   (function() {
@@ -11,8 +11,6 @@
       _authTokenManager: document.createElement('charon-auth-token-manager'),
       _endpoint: 'http://localhost:3000',
       properties: {},
-
-      created: function() {},
 
       invoke: function(apiPath, tokenScope) {
         var _this = this;
@@ -30,6 +28,10 @@
           .then(function() {
             return req.response;
           });
+      },
+
+      getToken: function(scope) {
+        return this._authTokenManager.getToken(scope);
       },
 
       _getUrl: function(apiPath) {

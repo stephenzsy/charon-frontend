@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<link rel="import" href="../charon-services/certs.html">
+
+<dom-module id="charon-page-setup">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <h2 class="page-title">Setup</h2>
+    <paper-material elevation="1">
+      <h3>Setup Certificate Authority (CA)</h3>
+      <div>
+        <paper-button class="primary" on-click="toggleCertificateMetadataDialog" noink>Certificate Metadata</paper-button>
+        <paper-button class="primary" on-click="downloadCertificatePem" noink>Download .pem file</paper-button>
+      </div>
+      <paper-dialog id="certificate-metadata-dialog">
+        <h2>Certificate Metadata</h2>
+        <paper-dialog-scrollable>
+          <pre>{{caCertMetadata}}</pre>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Close</paper-button>
+        </div>
+      </paper-dialog>
+    </paper-material>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var SetupPage = Polymer.Class({
+        is: 'charon-page-setup',
+        properties: {
+          caCertMetadata: {
+            type: 'String',
+            readOnly: true,
+            value: ''
+          }
+        },
+
+        ready: function() {
+          var _this = this;
+          this._service = document.createElement('charon-service-certs');
+          this._service.getCa().then(function(result) {
+            _this._setCaCertMetadata(result.rawCertificateMetadata);
+          });
+        },
+
+        toggleCertificateMetadataDialog: function() {
+          this.$['certificate-metadata-dialog'].toggle();
+        },
+
+        downloadCertificatePem: function() {
+          this._service.getPublicToken().then(function(token) {
+            window.open('http://localhost:3000/certs/ca?format=pem&token=' + token);
+          });
+        }
+      });
+
+      document.registerElement('charon-page-setup', SetupPage);
+    })();
+  </script>
+</dom-module>

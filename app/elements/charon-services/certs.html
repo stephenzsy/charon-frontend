@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="./charon-service-base.html">
+<link rel="import" href="./base.html">
 
 <script>
   (function() {
@@ -23,6 +23,10 @@
       getCa: function() {
         return this._base.invoke('certs/ca', 'public');
       },
+
+      getPublicToken: function() {
+        return this._base.getToken('public');
+      }
     });
 
     document.registerElement('charon-service-certs', CharonServiceCerts);

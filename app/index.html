@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="Polymer Starter Kit">
-  <title>Polymer Starter Kit</title>
+  <title>Charon</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
@@ -79,9 +79,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Home</span>
           </a>
 
-          <a data-route="users" href="{{baseUrl}}users">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
+          <a data-route="setup" href="{{baseUrl}}setup">
+            <iron-icon icon="settings"></iron-icon>
+            <span>Setup</span>
           </a>
 
           <a data-route="contact" href="{{baseUrl}}contact">
@@ -147,18 +147,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             </section>
 
-            <section data-route="users">
-              <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href$="{{baseUrl}}users/Addy">Addy</a>
-                <br>
-                <a href$="{{baseUrl}}users/Rob">Rob</a>
-                <br>
-                <a href$="{{baseUrl}}users/Chuck">Chuck</a>
-                <br>
-                <a href$="{{baseUrl}}users/Sam">Sam</a>
-              </paper-material>
+            <section data-route="setup">
+              <charon-page-setup></charon-page-setup>
             </section>
 
             <section data-route="user-info">

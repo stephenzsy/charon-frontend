@@ -37,7 +37,7 @@
         if (!cachedToken || cachedToken.expiry < Date.now()) {
           var req = document.createElement('iron-request');
           return req.send({
-            url: 'http://localhost:3000/auth/token',
+            url: 'http://localhost:3000/auth/token?scope=' + window.encodeURIComponent(scope),
             handleAs: 'json'
           }).then(function() {
             var result = req.response;

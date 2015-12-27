@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<link rel="import" href="../charon-services/certs.html">
+<link rel="import" href="../charon-ui/create-user.html">
+
+<dom-module id="charon-page-admin">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <h2 class="page-title">Admin</h2>
+    <paper-material elevation="1">
+      <charon-ui-create-user></charon-ui-create-user>
+    </paper-material>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var AdminPage = Polymer.Class({
+        is: 'charon-page-admin',
+        properties: {
+        },
+
+        ready: function() {
+        },
+
+      });
+
+      document.registerElement('charon-page-admin', AdminPage);
+    })();
+  </script>
+</dom-module>

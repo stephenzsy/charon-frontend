@@ -79,6 +79,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Home</span>
           </a>
 
+          <a data-route="admin" href="{{baseUrl}}admin">
+            <iron-icon icon="settings"></iron-icon>
+            <span>Admin</span>
+          </a>
+
           <a data-route="setup" href="{{baseUrl}}setup">
             <iron-icon icon="settings"></iron-icon>
             <span>Setup</span>
@@ -125,7 +130,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
               <paper-material elevation="1">
                 <p class="paper-font-body2">This is another card.</p>
-                <charon-ui-certs-ca></charon-ui-certs-ca>
               </paper-material>
 
               <paper-material elevation="1" class="paper-font-body2">
@@ -149,6 +153,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="setup">
               <charon-page-setup></charon-page-setup>
+            </section>
+
+            <section data-route="admin">
+              <charon-page-admin></charon-page-admin>
             </section>
 
             <section data-route="user-info">

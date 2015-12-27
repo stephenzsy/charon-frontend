@@ -40,25 +40,34 @@
             type: 'String',
             readOnly: true,
             value: ''
+          },
+          caCert: {
+            type: 'Object',
+            readOnly: true,
+            value: {}
           }
         },
 
+        _service: null,
+
         ready: function() {
-          var _this = this;
           this._service = document.createElement('charon-service-certs');
-          this._service.getCa().then(function(result) {
-            _this._setCaCertMetadata(result.rawCertificateMetadata);
-          });
         },
 
         toggleCertificateMetadataDialog: function() {
-          this.$['certificate-metadata-dialog'].toggle();
+          var _this = this;
+          this._service.getCa().then(function(result) {
+            _this._setCaCert(result);
+            _this._setCaCertMetadata(result.rawCertificateMetadata);
+          }).then(function() {
+            _this.$['certificate-metadata-dialog'].toggle();
+          });
         },
 
         downloadCertificatePem: function() {
-          this._service.getPublicToken().then(function(token) {
-            window.open('http://localhost:3000/certs/ca?format=pem&token=' + token);
-          });
+          var uriContent = 'data:application/octet-stream,' +
+            encodeURIComponent(this.caCert.certificatePemContent);
+          window.open(uriContent, 'ca.pem');
         }
       });
 

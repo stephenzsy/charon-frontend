@@ -16,16 +16,14 @@
 
       _base: document.createElement('charon-service-base'),
 
-      created: function() {
-        //  this._authTokenManager = document.createElement('charon-auth-token-manager');
-      },
-
       getCa: function() {
-        return this._base.invoke('certs/ca', 'public');
+        return this._base.invoke('GET', 'certs/ca', 'public', null);
       },
 
-      getPublicToken: function() {
-        return this._base.getToken('public');
+      createClientKeypair: function(email) {
+        return this._base.invoke('POST', 'certs/client-keypairs', 'admin', {
+          emailAddress: email
+        });
       }
     });
 

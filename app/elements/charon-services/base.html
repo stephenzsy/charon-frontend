@@ -12,18 +12,24 @@
       _endpoint: 'http://localhost:3000',
       properties: {},
 
-      invoke: function(apiPath, tokenScope) {
+      invoke: function(method, apiPath, tokenScope, body) {
         var _this = this;
         var req = document.createElement('iron-request');
+        var data = {
+          method: method,
+          url: _this._getUrl(apiPath),
+          headers: {
+            'content-type': 'application/json'
+          },
+          handleAs: 'json',
+        };
+        if (body) {
+          data.body = JSON.stringify(body);
+        }
         return this._authTokenManager.getToken(tokenScope)
           .then(function(token) {
-            return req.send({
-              url: _this._getUrl(apiPath),
-              headers: {
-                'x-access-token': token
-              },
-              handleAs: 'json'
-            });
+            data.headers['x-access-token'] = token;
+            return req.send(data);
           })
           .then(function() {
             return req.response;

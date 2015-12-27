@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../charon-services/certs.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<dom-module id="charon-ui-create-user">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <div>
+      <h3>Create a new user</h3>
+      <paper-input label="Email Address" type="email" value={{emailAddress}}></paper-input>
+      <paper-button class="primary" on-click="createClientKeypair">Create</paper-button>
+    </div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var CharonUiCreateUserser = Polymer.Class({
+        is: 'charon-ui-create-user',
+
+        /**
+         * Authorization token manager
+         */
+        _service: null,
+
+        properties: {
+          emailAddress: {
+            type: 'String',
+            value: ''
+          }
+        },
+
+        ready: function() {
+          this._service = document.createElement('charon-service-certs');
+        },
+
+        createClientKeypair: function() {
+          this._service.createClientKeypair(this.emailAddress).then(function(result) {
+            console.log(result);
+          });
+        }
+      });
+
+      document.registerElement('charon-ui-create-user', CharonUiCreateUserser);
+    })();
+  </script>
+</dom-module>

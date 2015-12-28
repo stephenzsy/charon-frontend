@@ -9,10 +9,10 @@
 <link rel="import" href="../charon-services/certs.html">
 <link rel="import" href="../charon-ui/create-user.html">
 
-<dom-module id="charon-page-admin">
+<dom-module id="charon-page-users">
   <style is="custom-style" include="shared-styles"></style>
   <template>
-    <h2 class="page-title">Admin</h2>
+    <h2 class="page-title">Users</h2>
     <paper-material elevation="1">
       <charon-ui-create-user></charon-ui-create-user>
     </paper-material>
@@ -21,8 +21,8 @@
     (function() {
       'use strict';
 
-      var AdminPage = Polymer.Class({
-        is: 'charon-page-admin',
+      var UsersPage = Polymer.Class({
+        is: 'charon-page-users',
         properties: {
         },
 
@@ -31,7 +31,7 @@
 
       });
 
-      document.registerElement('charon-page-admin', AdminPage);
+      document.registerElement('charon-page-users', UsersPage);
     })();
   </script>
 </dom-module>

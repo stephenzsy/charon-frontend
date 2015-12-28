@@ -79,14 +79,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Home</span>
           </a>
 
-          <a data-route="admin" href="{{baseUrl}}admin">
-            <iron-icon icon="settings"></iron-icon>
-            <span>Admin</span>
-          </a>
-
           <a data-route="setup" href="{{baseUrl}}setup">
             <iron-icon icon="settings"></iron-icon>
             <span>Setup</span>
+          </a>
+
+          <a data-route="users" href="{{baseUrl}}users">
+            <iron-icon icon="social:group"></iron-icon>
+            <span>Users</span>
           </a>
 
           <a data-route="contact" href="{{baseUrl}}contact">
@@ -155,8 +155,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <charon-page-setup></charon-page-setup>
             </section>
 
-            <section data-route="admin">
-              <charon-page-admin></charon-page-admin>
+            <section data-route="users">
+              <charon-page-users></charon-page-users>
             </section>
 
             <section data-route="user-info">

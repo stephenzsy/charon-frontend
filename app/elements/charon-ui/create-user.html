@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../charon-services/certs.html">
+<link rel="import" href="../charon-services/users.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
 <dom-module id="charon-ui-create-user">
@@ -9,8 +9,9 @@
   <template>
     <div>
       <h3>Create a new user</h3>
-      <paper-input label="Email Address" type="email" value={{emailAddress}}></paper-input>
-      <paper-button class="primary" on-click="createClientKeypair">Create</paper-button>
+      <paper-input label="Name" type="text" value="{{name}}"></paper-input>
+      <paper-input label="Email Address" type="email" value="{{email}}"></paper-input>
+      <paper-button class="primary" on-click="createUser">Create</paper-button>
     </div>
   </template>
   <script>
@@ -29,15 +30,22 @@
           emailAddress: {
             type: 'String',
             value: ''
+          },
+          name: {
+            type: 'String',
+            value: ''
           }
         },
 
         ready: function() {
-          this._service = document.createElement('charon-service-certs');
+          this._service = document.createElement('charon-service-users');
         },
 
-        createClientKeypair: function() {
-          this._service.createClientKeypair(this.emailAddress).then(function(result) {
+        createUser: function() {
+          this._service.createUser({
+            name: this.name,
+            email: this.email
+          }).then(function(result) {
             console.log(result);
           });
         }

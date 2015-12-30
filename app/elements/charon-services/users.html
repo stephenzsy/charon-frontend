@@ -1,0 +1,20 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="./base.html">
+
+<script>
+  (function() {
+    'use strict';
+
+    var CharonServiceUsers = Polymer.Class({
+      is: 'charon-service-users',
+
+      _base: document.createElement('charon-service-base'),
+
+      createUser: function(req) {
+        return this._base.invoke('POST', 'users', 'admin', req);
+      }
+    });
+
+    document.registerElement('charon-service-users', CharonServiceUsers);
+  })();
+</script>

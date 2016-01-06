@@ -7,12 +7,16 @@
 <link rel="import" href="../../styles/shared-styles.html">
 
 <link rel="import" href="../charon-services/certs.html">
+<link rel="import" href="../charon-ui/list-users.html">
 <link rel="import" href="../charon-ui/create-user.html">
 
 <dom-module id="charon-page-users">
   <style is="custom-style" include="shared-styles"></style>
   <template>
     <h2 class="page-title">Users</h2>
+    <paper-material elevation="1">
+      <charon-ui-list-users></charon-ui-list-users>
+    </paper-material>
     <paper-material elevation="1">
       <charon-ui-create-user></charon-ui-create-user>
     </paper-material>

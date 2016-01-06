@@ -12,6 +12,10 @@
 
       createUser: function(req) {
         return this._base.invoke('POST', 'users', 'admin', req);
+      },
+
+      listUsers: function() {
+        return this._base.invoke('GET', 'users', 'admin');
       }
     });
 

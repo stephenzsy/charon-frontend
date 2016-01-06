@@ -1,0 +1,43 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../charon-services/users.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<dom-module id="charon-ui-list-users">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <div>
+      <h3>Current Users</h3>
+    </div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var CharonUiListUsers = Polymer.Class({
+        is: 'charon-ui-list-users',
+
+        /**
+         * Authorization token manager
+         */
+        _service: null,
+
+        properties: {},
+
+        ready: function() {
+          this._service = document.createElement('charon-service-users');
+          this.listUsers();
+        },
+
+        listUsers: function() {
+          this._service.listUsers().then(function(result) {
+            console.log(result);
+          });
+        }
+      });
+
+      document.registerElement('charon-ui-list-users', CharonUiListUsers);
+    })();
+  </script>
+</dom-module>

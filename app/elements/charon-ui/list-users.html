@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../charon-services/users.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
@@ -9,6 +10,15 @@
   <template>
     <div>
       <h3>Current Users</h3>
+      <template is="dom-repeat" items="{{users}}">
+        <paper-card heading="{{item.name}}">
+          <div class="card-content">{{item.email}}</div>
+          <div class="card-content">{{item.createdAt}}</div>
+          <div class="card-actions">
+            <paper-button>Some action</paper-button>
+          </div>
+        </paper-card>
+      </template>
     </div>
   </template>
   <script>
@@ -23,7 +33,13 @@
          */
         _service: null,
 
-        properties: {},
+        properties: {
+          users: {
+            type: 'Array',
+            readOnly: true,
+            value: []
+          }
+        },
 
         ready: function() {
           this._service = document.createElement('charon-service-users');
@@ -31,8 +47,9 @@
         },
 
         listUsers: function() {
+          var _this = this;
           this._service.listUsers().then(function(result) {
-            console.log(result);
+            _this._setUsers(result.items);
           });
         }
       });

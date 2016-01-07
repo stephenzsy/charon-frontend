@@ -10,12 +10,16 @@
 
       _base: document.createElement('charon-service-base'),
 
+      listUsers: function() {
+        return this._base.invoke('GET', 'users', 'admin');
+      },
+
       createUser: function(req) {
         return this._base.invoke('POST', 'users', 'admin', req);
       },
 
-      listUsers: function() {
-        return this._base.invoke('GET', 'users', 'admin');
+      deleteUser: function(id) {
+        return this._base.invoke('DELETE', 'users/' + encodeURIComponent(id), 'admin');
       }
     });
 

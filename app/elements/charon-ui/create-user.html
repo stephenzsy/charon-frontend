@@ -9,7 +9,7 @@
   <template>
     <div>
       <h3>Create a new user</h3>
-      <paper-input label="Name" type="text" value="{{name}}"></paper-input>
+      <paper-input label="Username" type="text" value="{{username}}"></paper-input>
       <paper-input label="Email Address" type="email" value="{{email}}"></paper-input>
       <paper-button class="primary" on-click="createUser">Create</paper-button>
     </div>
@@ -31,7 +31,7 @@
             type: 'String',
             value: ''
           },
-          name: {
+          username: {
             type: 'String',
             value: ''
           }
@@ -43,7 +43,7 @@
 
         createUser: function() {
           this._service.createUser({
-            name: this.name,
+            username: this.username,
             email: this.email
           }).then(function(result) {
             console.log(result);

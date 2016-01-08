@@ -21,7 +21,7 @@
         <tbody>
           <template is="dom-repeat" items="[[users]]">
             <tr>
-              <td>[[item.name]]</td>
+              <td>[[item.username]]</td>
               <td>[[item.email]]</td>
               <td>
                 <paper-icon-button icon="delete" on-click="deleteUserById" data-user-id$="[[item.id]]"></paper-icon-button>

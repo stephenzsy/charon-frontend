@@ -20,6 +20,11 @@
 
       deleteUser: function(id) {
         return this._base.invoke('DELETE', 'users/' + encodeURIComponent(id), 'admin');
+      },
+
+      createPassword: function(userId, req) {
+        var path = 'users/' + encodeURIComponent(userId) + '/passwords';
+        return this._base.invoke('POST', path, 'admin', req);
       }
     });
 

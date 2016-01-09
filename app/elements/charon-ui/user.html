@@ -5,27 +5,26 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../charon-services/users.html">
-<link rel="import" href="./user.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
-<dom-module id="charon-ui-list-users">
+<dom-module id="charon-ui-user">
   <style is="custom-style" include="shared-styles"></style>
   <template>
     <div>
-      <h3>Current Users</h3>
-      <iron-list items="[[users]]" as="user">
-        <template>
-          <charon-ui-user user="[[user]]"></charon-ui-user>
-        </template>
-      </iron-list>
+      <p><b>Username: </b>[[user.username]]</p>
+      <p><b>Email: </b>[[user.email]]</p>
+      <p>
+        <paper-button raised on-click="createPassword">Create new password</paper-button>
+        <paper-icon-button icon="delete" on-click="deleteUser"></paper-icon-button>
+      </p>
     </div>
   </template>
   <script>
     (function() {
       'use strict';
 
-      var CharonUiListUsers = Polymer.Class({
-        is: 'charon-ui-list-users',
+      var CharonUiUser = Polymer.Class({
+        is: 'charon-ui-user',
 
         /**
          * Authorization token manager
@@ -33,31 +32,26 @@
         _service: null,
 
         properties: {
-          users: {
-            type: 'Array',
-            readOnly: true,
-            value: []
+          user: {
+            type: 'Object',
+            value: {}
           }
         },
 
         ready: function() {
           this._service = document.createElement('charon-service-users');
-          this.listUsers();
         },
 
-        listUsers: function() {
-          var _this = this;
-          this._service.listUsers().then(function(result) {
-            _this._setUsers(result.items);
-          });
+        deleteUser: function() {
+          this._service.deleteUser(this.user.id);
         },
 
-        deleteUserById: function(e) {
-          this._service.deleteUser(Polymer.dom(e).localTarget.getAttribute('data-user-id'));
+        createPassword: function() {
+          this._service.createPassword(this.user.id, {});
         }
       });
 
-      document.registerElement('charon-ui-list-users', CharonUiListUsers);
+      document.registerElement('charon-ui-user', CharonUiUser);
     })();
   </script>
 </dom-module>

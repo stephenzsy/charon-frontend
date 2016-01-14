@@ -10,14 +10,14 @@
 <dom-module id="charon-ui-user">
   <style is="custom-style" include="shared-styles"></style>
   <template>
-    <div>
+    <paper-material elevation="1">
       <p><b>Username: </b>[[user.username]]</p>
       <p><b>Email: </b>[[user.email]]</p>
       <p>
         <paper-button raised on-click="createPassword">Create new password</paper-button>
         <paper-icon-button icon="delete" on-click="deleteUser"></paper-icon-button>
       </p>
-    </div>
+      </paper-material>
   </template>
   <script>
     (function() {

@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../charon-services/users.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<dom-module id="charon-ui-network">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <paper-material elevation="1">
+      <p><b>Name: [[network.name]]
+      <p><b>ID: </b>[[network.id]]</p>
+    </paper-material>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      class Network {
+        beforeRegister() {
+          this.is = 'charon-ui-network';
+          this.properties = {
+            network: {
+              type: 'Object',
+              value: {}
+            }
+          };
+        }
+      }
+
+      Polymer(Network);
+    })();
+  </script>
+</dom-module>

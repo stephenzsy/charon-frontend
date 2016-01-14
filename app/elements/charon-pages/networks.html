@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+
+<link rel="import" href="../charon-services/networks.html">
+<link rel="import" href="../charon-ui/network.html">
+
+<dom-module id="charon-page-networks">
+  <style is="custom-style" include="shared-styles"></style>
+  <template>
+    <h2 class="page-title">Networks</h2>
+    <template is="dom-repeat" items="[[networks]]" as="network">
+      <charon-ui-network network="[[network]]"></charon-ui-network>
+    </template>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      class NetworksPage {
+        beforeRegister() {
+          this.is = 'charon-page-networks';
+          this.properties = {
+            networks: {
+              type: 'Array',
+              value: [],
+              readOnly: true
+            }
+          };
+        }
+
+        ready() {
+          this._service = document.createElement('charon-service-networks');
+          this._service.cachedNetworks.then((networks) => {
+            this._setNetworks(networks);
+          });
+        }
+      }
+
+      Polymer(NetworksPage);
+    })();
+  </script>
+</dom-module>

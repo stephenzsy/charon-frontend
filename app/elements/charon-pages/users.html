@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 
 <link rel="import" href="../../styles/app-theme.html">
@@ -14,12 +16,15 @@
   <style is="custom-style" include="shared-styles"></style>
   <template>
     <h2 class="page-title">Users</h2>
-    <paper-material elevation="1">
-      <charon-ui-list-users></charon-ui-list-users>
-    </paper-material>
+    <paper-toolbar>
+      <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
+      <div class="title">Title</div>
+      <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
+    </paper-toolbar>
     <paper-material elevation="1">
       <charon-ui-create-user></charon-ui-create-user>
     </paper-material>
+    <charon-ui-list-users></charon-ui-list-users>
   </template>
   <script>
     (function() {
@@ -27,11 +32,9 @@
 
       var UsersPage = Polymer.Class({
         is: 'charon-page-users',
-        properties: {
-        },
+        properties: {},
 
-        ready: function() {
-        },
+        ready: function() {},
 
       });
 

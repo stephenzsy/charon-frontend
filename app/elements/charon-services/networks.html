@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/promise-polyfill/promise-polyfill-lite.html">
+<link rel="import" href="./base.html">
+
+<script>
+  (function() {
+    'use strict';
+
+    var _networks = null;
+    var _networksPromise = null;
+    const _serviceBase = document.createElement('charon-service-base');
+
+    function listNetworks() {
+      return _serviceBase.invoke('GET', 'networks', 'admin');
+    }
+
+    _networksPromise = listNetworks().then(function(networks) {
+      _networks = networks;
+      return _networks;
+    });
+
+    class Networks {
+      beforeRegister() {
+        this.is = 'charon-service-networks';
+      }
+
+      get cachedNetworks() {
+        if (_networks) {
+          return new Promise(function(resolve) {
+            resolve(_networks);
+          });
+        }
+        return _networksPromise;
+      }
+    }
+
+    Polymer(Networks);
+  })();
+</script>

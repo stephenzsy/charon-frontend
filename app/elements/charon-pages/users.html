@@ -2,7 +2,8 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 
 <link rel="import" href="../../styles/app-theme.html">
@@ -17,28 +18,33 @@
   <template>
     <h2 class="page-title">Users</h2>
     <paper-toolbar>
-      <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
-      <div class="title">Title</div>
-      <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
+      <paper-button on-tap="addUserAction">
+        <iron-icon icon="add"></iron-icon>
+        Add User
+      </paper-button>
     </paper-toolbar>
-    <paper-material elevation="1">
-      <charon-ui-create-user></charon-ui-create-user>
-    </paper-material>
+    <iron-collapse id="addUserSection">
+      <paper-material elevation="1">
+        <charon-ui-create-user></charon-ui-create-user>
+      </paper-material>
+    </iron-collapse>
     <charon-ui-list-users></charon-ui-list-users>
   </template>
   <script>
     (function() {
       'use strict';
 
-      var UsersPage = Polymer.Class({
-        is: 'charon-page-users',
-        properties: {},
+      class UserPage {
+        beforeRegister() {
+          this.is = 'charon-page-users';
+        }
 
-        ready: function() {},
+        addUserAction() {
+          this.$.addUserSection.toggle();
+        }
+      }
 
-      });
-
-      document.registerElement('charon-page-users', UsersPage);
+      Polymer(UserPage);
     })();
   </script>
 </dom-module>

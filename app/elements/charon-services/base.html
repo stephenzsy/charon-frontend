@@ -5,14 +5,23 @@
 <script>
   (function() {
     'use strict';
-    var CharonServiceBase = Polymer.Class({
-      is: 'charon-service-base',
 
-      _authTokenManager: document.createElement('charon-auth-token-manager'),
-      _endpoint: 'http://localhost:3000',
-      properties: {},
+    class ServiceBase {
+      beforeRegister() {
+        this.is = 'charon-service-base';
+        this._authTokenManager = document.createElement('charon-auth-token-manager');
+        this._endpoint = 'http://localhost:3000';
+      }
 
-      invoke: function(method, apiPath, tokenScope, body) {
+      getToken(scope) {
+        return this._authTokenManager.getToken(scope);
+      }
+
+      _getUrl(apiPath) {
+        return this._endpoint + '/' + apiPath;
+      }
+
+      invoke(method, apiPath, tokenScope, body) {
         var _this = this;
         var req = document.createElement('iron-request');
         var data = {
@@ -33,18 +42,12 @@
           })
           .then(function() {
             return req.response;
+          }, () => {
+            throw req.parseResponse();
           });
-      },
-
-      getToken: function(scope) {
-        return this._authTokenManager.getToken(scope);
-      },
-
-      _getUrl: function(apiPath) {
-        return this._endpoint + '/' + apiPath;
       }
-    });
+    }
 
-    document.registerElement('charon-service-base', CharonServiceBase);
+    Polymer(ServiceBase);
   })();
 </script>

@@ -1,6 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
 <link rel="import" href="../charon-services/users.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
@@ -9,7 +14,11 @@
   <template>
     <div>
       <h3>Create a new user</h3>
-      <paper-input label="Username" type="text" value="{{username}}"></paper-input>
+      <paper-input-container id="usernameContainer">
+        <label>Username</label>
+        <input is="iron-input" type="text" value="{{username::input}}">
+        <paper-input-error>{{errorMessage}}</paper-input-error>
+      </paper-input-container>
       <paper-input label="Email Address" type="email" value="{{email}}"></paper-input>
       <paper-button class="primary" on-click="createUser">Create</paper-button>
     </div>
@@ -18,40 +27,41 @@
     (function() {
       'use strict';
 
-      var CharonUiCreateUserser = Polymer.Class({
-        is: 'charon-ui-create-user',
-
-        /**
-         * Authorization token manager
-         */
-        _service: null,
-
-        properties: {
-          emailAddress: {
-            type: 'String',
-            value: ''
-          },
-          username: {
-            type: 'String',
-            value: ''
-          }
-        },
-
-        ready: function() {
+      class CharonUiCreateUserser {
+        beforeRegister() {
+          this.is = 'charon-ui-create-user';
           this._service = document.createElement('charon-service-users');
-        },
+          this.properties = {
+            emailAddress: {
+              type: 'String',
+              value: ''
+            },
+            username: {
+              type: 'String',
+              value: ''
+            },
+            errorMessage: {
+              type: 'String',
+              readOnly: true,
+              value: ''
+            }
+          };
+        }
 
-        createUser: function() {
+        createUser() {
           this._service.createUser({
             username: this.username,
             email: this.email
           }).then(function(result) {
             console.log(result);
+          }, (error) => {
+            this.$.usernameContainer.invalid = true;
+            this._setErrorMessage(error.message);
           });
         }
-      });
+      }
 
-      document.registerElement('charon-ui-create-user', CharonUiCreateUserser);
+      Polymer(CharonUiCreateUserser);
     })();
   </script>
 </dom-module>

@@ -13,51 +13,45 @@
   <template>
     <div>
       <h3>Current Users</h3>
-      <iron-list items="[[users]]" as="user">
-        <template>
-          <charon-ui-user user="[[user]]"></charon-ui-user>
-        </template>
-      </iron-list>
+      <template is="dom-repeat" items="[[users]]" as="user">
+        <charon-ui-user user="[[user]]"></charon-ui-user>
+      </template>
     </div>
   </template>
   <script>
     (function() {
       'use strict';
 
-      var CharonUiListUsers = Polymer.Class({
-        is: 'charon-ui-list-users',
-
-        /**
-         * Authorization token manager
-         */
-        _service: null,
-
-        properties: {
-          users: {
-            type: 'Array',
-            readOnly: true,
-            value: []
-          }
-        },
-
-        ready: function() {
+      class ListUsers {
+        beforeRegister() {
+          this.is = 'charon-ui-list-users';
           this._service = document.createElement('charon-service-users');
-          this.listUsers();
-        },
 
-        listUsers: function() {
+          this.properties = {
+            users: {
+              type: 'Array',
+              value: []
+            }
+          };
+        }
+
+        ready() {
+          this.listUsers();
+        }
+
+        listUsers() {
           var _this = this;
           this._service.listUsers().then(function(result) {
-            _this._setUsers(result.items);
+            _this.users = result.items;
           });
-        },
+        }
 
-        deleteUserById: function(e) {
+        deleteUserById(e) {
           this._service.deleteUser(Polymer.dom(e).localTarget.getAttribute('data-user-id'));
         }
-      });
+      }
 
-      document.registerElement('charon-ui-list-users', CharonUiListUsers);
+      Polymer(ListUsers);
     })();
   </script>
 </dom-module>

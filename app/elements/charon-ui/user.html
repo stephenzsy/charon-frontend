@@ -5,53 +5,97 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../charon-services/users.html">
+<link rel="import" href="../charon-services/networks.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
 <dom-module id="charon-ui-user">
-  <style is="custom-style" include="shared-styles"></style>
+  <style is="custom-style">
+    paper-material {
+      padding: 0.5rem;
+      margin: 0.5rem;
+    }
+
+    paper-material.user-network {
+      background-color: var(--paper-grey-200);
+    }
+
+    paper-button.indigo {
+      color: var(--paper-indigo-500);
+    }
+
+    p {
+      margin: 0;
+    }
+  </style>
   <template>
     <paper-material elevation="1">
-      <p><b>Username: </b>[[user.username]]</p>
-      <p><b>Email: </b>[[user.email]]</p>
       <p>
-        <paper-button raised on-click="createPassword">Create new password</paper-button>
-        <paper-icon-button icon="delete" on-click="deleteUser"></paper-icon-button>
+        <b>Username: </b>[[user.username]]
+        <paper-button class="indigo" on-tap="toggleDetails">Details</paper-button>
       </p>
+      <iron-collapse id="details">
+        <p><b>Email: </b>[[user.email]]</p>
+        <p>
+          <paper-button class="indigo" on-click="deleteUser">
+            <iron-icon icon="delete"></iron-icon>
+            Delete User
+          </paper-button>
+        </p>
+        <template is="dom-repeat" items="[[networks]]" as="network">
+          <paper-material class="user-network" elevation="1">
+            <p>Network: [[network.name]]</p>
+            <p>
+              <paper-button class="indigo" on-click="createPassword" data-network-id$="[[network.id]]">
+                <iron-icon icon="add"></iron-icon>
+                Create new password
+              </paper-button>
+              <paper-button class="indigo" on-click="deletePassword">
+                <iron-icon icon="delete"></iron-icon>
+                Delete Password
+              </paper-button>
+            </p>
+          </paper-material>
+        </template>
+      </iron-collapse>
     </paper-material>
   </template>
   <script>
     (function() {
       'use strict';
 
-      var CharonUiUser = Polymer.Class({
-        is: 'charon-ui-user',
-
-        /**
-         * Authorization token manager
-         */
-        _service: null,
-
-        properties: {
-          user: {
-            type: 'Object',
-            value: {}
-          }
-        },
-
-        ready: function() {
+      class User {
+        beforeRegister() {
+          this.is = 'charon-ui-user';
           this._service = document.createElement('charon-service-users');
-        },
-
-        deleteUser: function() {
-          this._service.deleteUser(this.user.id);
-        },
-
-        createPassword: function() {
-          this._service.createPassword(this.user.id, {});
+          this._networks = document.createElement('charon-service-networks');
+          this.properties = {
+            networks: 'Array'
+          };
         }
-      });
 
-      document.registerElement('charon-ui-user', CharonUiUser);
+        ready() {
+          this._networks.cachedNetworks.then((networks) => {
+            this.networks = networks;
+          });
+        }
+
+        deleteUser() {
+          this._service.deleteUser(this.user.id);
+        }
+
+        createPassword(e) {
+          var networkId = e.target.getAttribute('data-network-id');
+          this._service.createPassword(this.user.id, {
+            networkId: networkId
+          });
+        }
+
+        toggleDetails() {
+          this.$.details.toggle();
+        }
+      }
+
+      Polymer(User);
     })();
   </script>
 </dom-module>
